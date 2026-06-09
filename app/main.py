@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from datetime import date
 
 from app.schemas import AITurnRequest, TurnPhase
-from app.logic import choose_setup, choose_turn
+from app.logic import choose_setup_random, choose_turn_random, escolher_jogada
 
 app = FastAPI(
     title="Sedento - By Gulosos",
@@ -16,8 +16,9 @@ async def health():
 
 @app.post("/move")
 async def move(body: AITurnRequest):
-    if body.turn_phase == TurnPhase.SETUP:
-        return choose_setup(body.board)
-    else:
-        jogada = choose_turn(body.board, int(body.your_team))
-        return jogada
+    return escolher_jogada(board= body.board, your_team=body.your_team, turn_phase=body.turn_phase, professor_to_place=body.professor_to_place)
+
+
+@app.post("/random_test")
+async def random_test(body: AITurnRequest):
+    return choose_turn_random(board= body.board, your_team=body.your_team, turn_phase=body.turn_phase, professor_to_place=body.professor_to_place)
