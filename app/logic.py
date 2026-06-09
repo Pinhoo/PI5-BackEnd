@@ -6,7 +6,7 @@ import copy
 BOARD_SIZE = 5
 TEAM_PROFESSORS = {1: ["CLARO", "REY"], 2: ["KARIN", "BEATRIZ"]}
 INF = float("inf")
-SEARCH_DEPTH = 3
+SEARCH_DEPTH = 2
 
 def board_to_dict(board: list) -> list:
 
@@ -210,7 +210,10 @@ def gerar_jogadas(board, team_id):
 
 
 def aplicar_jogada(board, move):
-    new_board = copy.deepcopy(board)
+    new_board = [
+    [cell.copy() for cell in row]
+    for row in board
+]
     professor = move["professor"]
     cur_row, cur_col = find_professor(new_board, professor)
     dst_row = move["move_to"]["row"]
